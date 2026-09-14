@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akar &mdash; Katalog Tanaman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest: #202B18;
+    --forest-soft: #303F22;
+    --cream: #F7F2E4;
+    --bg: #F1ECDD;
+    --panel: #FFFFFF;
+    --ink: #23291B;
+    --ink-soft: #62684F;
+    --sage: #93A66A;
+    --clay: #C1683A;
+    --clay-dark: #A0552E;
+    --line: #E1D9C2;
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background: var(--forest);
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before{
+    content: "";
+    position: absolute;
+    right: -120px;
+    top: -140px;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, var(--forest-soft), transparent 70%);
+  }
+  .hero-inner{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 44px 28px 72px;
+    position: relative;
+  }
+  .hero-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 64px;
+  }
+  .brand{
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .brand::before{
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--sage);
+  }
+  .hero-nav{
+    font-size: 13px;
+    color: var(--sage);
+  }
+  .hero-grid{
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 48px;
+    align-items: end;
+  }
+  h1{
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(32px, 4.6vw, 52px);
+    line-height: 1.08;
+    margin: 0 0 20px;
+    letter-spacing: -0.01em;
+  }
+  .sub{
+    color: #CFD6BE;
+    font-size: 16px;
+    max-width: 440px;
+    margin: 0;
+  }
+  .hero-stat{
+    border-left: 1px solid rgba(247,242,228,0.25);
+    padding-left: 24px;
+  }
+  .hero-stat .num{
+    font-family: 'Fraunces', serif;
+    font-size: 40px;
+    color: var(--cream);
+    display: block;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .hero-stat .label{
+    font-size: 13.5px;
+    color: #B7BFA4;
+  }
+
+  /* ---------- Body ---------- */
+  .wrap{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px 80px;
+  }
+
+  .filter-row{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 28px 0 24px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .filters{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 28px;
+  }
+  .filter-btn{
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 4px 0;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  .filter-btn:hover{
+    color: var(--ink);
+  }
+  .filter-btn.active{
+    color: var(--ink);
+    border-color: var(--clay);
+    font-weight: 600;
+  }
+  .count{
+    font-size: 13px;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 28px 24px;
+  }
+  .card{
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: transform .25s cubic-bezier(.2,.7,.3,1.4), box-shadow .25s ease;
+    will-change: transform;
+  }
+  .card:hover{
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 28px 40px -20px rgba(32,43,24,0.45);
+  }
+  .card:active{
+    transform: translateY(-6px) scale(1.01);
+  }
+  .card-img{
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+  }
+  .card img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .4s ease;
+  }
+  .card:hover img{
+    transform: scale(1.06);
+  }
+  .card-body{
+    padding: 18px 4px 4px;
+    display:flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+  }
+  .card-cat{
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-cat .dot{
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .card-name{
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 500;
+    margin: 0;
+  }
+  .card-desc{
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    flex: 1;
+    margin: 2px 0 14px;
+  }
+  .card-footer{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+  }
+  .price{
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 17px;
+  }
+  .add-btn{
+    font-family: 'Inter', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 9px 16px;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .add-btn:hover{
+    background: var(--clay);
+    border-color: var(--clay);
+    color: #fff;
+  }
+
+  .empty{
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 60px 0;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+
+  @media (max-width: 700px){
+    .hero-grid{ grid-template-columns: 1fr; gap: 28px; }
+    .hero-stat{ border-left: none; border-top: 1px solid rgba(247,242,228,0.25); padding-left: 0; padding-top: 16px; }
+    .filter-row{ flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div class="brand">Akar</div>
+      <div class="hero-nav">Tanaman &amp; perlengkapan berkebun</div>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <h1>Setiap tanaman punya cerita tempat ia tumbuh.</h1>
+        <p class="sub">Koleksi tanaman indoor, outdoor, pot, dan aksesoris berkebun, dipilih langsung dari petani lokal.</p>
+      </div>
+      <div class="hero-stat">
+        <span class="num" id="hero-count">9</span>
+        <span class="label">produk siap dikirim minggu ini</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="filter-row">
+    <div class="filters" id="filters"></div>
+    <div class="count" id="count"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+</div>
+
+<script>
+  // 1a. Array data produk: nama, harga, deskripsi, gambar, dan kategori
+  const products = [
+    {
+      name: "Monstera Deliciosa",
+      price: 185000,
+      category: "Tanaman Indoor",
+      desc: "Daun berlubang khas, tumbuh cepat, cocok untuk sudut ruangan yang terang.",
+      image: "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=500&q=80"
+    },
+    {
+      name: "Sirih Gading",
+      price: 65000,
+      category: "Tanaman Indoor",
+      desc: "Tahan banting dan mudah dirawat, ideal untuk pemula.",
+      image: "https://images.unsplash.com/photo-1602923668104-8f9e03c21d59?w=500&q=80"
+    },
+    {
+      name: "Lidah Mertua",
+      price: 95000,
+      category: "Tanaman Indoor",
+      desc: "Menyaring udara dan tahan pada kondisi minim cahaya.",
+      image: "https://images.unsplash.com/photo-1620127252536-03bdfcf6d5ac?w=500&q=80"
+    },
+    {
+      name: "Kaktus Koboi",
+      price: 55000,
+      category: "Tanaman Outdoor",
+      desc: "Butuh sinar matahari penuh dan penyiraman jarang.",
+      image: "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?w=500&q=80"
+    },
+    {
+      name: "Bougenville",
+      price: 120000,
+      category: "Tanaman Outdoor",
+      desc: "Berbunga lebat sepanjang tahun, cocok untuk pagar atau pot besar.",
+      image: "https://images.unsplash.com/photo-1583220726303-3ea9e0f0b5a7?w=500&q=80"
+    },
+    {
+      name: "Pot Tanah Liat Bulat",
+      price: 45000,
+      category: "Pot & Media Tanam",
+      desc: "Pot berpori yang membantu akar bernapas, diameter 20 cm.",
+      image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=500&q=80"
+    },
+    {
+      name: "Media Tanam Sekam Bakar",
+      price: 25000,
+      category: "Pot & Media Tanam",
+      desc: "Campuran gembur untuk drainase dan aerasi akar yang baik, 5 liter.",
+      image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=500&q=80"
+    },
+    {
+      name: "Gunting Tanaman",
+      price: 38000,
+      category: "Aksesoris",
+      desc: "Bilah baja tahan karat untuk memangkas ranting dan daun.",
+      image: "https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=500&q=80"
+    },
+    {
+      name: "Semprotan Kabut Kaca",
+      price: 60000,
+      category: "Aksesoris",
+      desc: "Botol kaca untuk menjaga kelembapan daun tanaman tropis.",
+      image: "https://images.unsplash.com/photo-1526397751294-331021109fbd?w=500&q=80"
+    }
+  ];
+
+  const grid = document.getElementById('grid');
+  const filtersEl = document.getElementById('filters');
+  const countEl = document.getElementById('count');
+
+  function formatRupiah(n){
+    return 'Rp' + n.toLocaleString('id-ID');
+  }
+
+  // Warna titik kategori untuk penanda visual pada tiap kartu
+  const categoryColors = {
+    "Tanaman Indoor": "#6E7F52",
+    "Tanaman Outdoor": "#93A66A",
+    "Pot & Media Tanam": "#B4703A",
+    "Aksesoris": "#8A6D3B"
+  };
+  function colorFor(cat){
+    return categoryColors[cat] || '#93A66A';
+  }
+
+  // 1b. Menampilkan produk ke halaman dengan looping
+  function renderProducts(list){
+    grid.innerHTML = '';
+
+    if(list.length === 0){
+      grid.innerHTML = '<div class="empty">Tidak ada produk pada kategori ini.</div>';
+      countEl.textContent = '0 produk ditemukan';
+      return;
+    }
+
+    list.forEach(function(product){
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-img">
+          <img src="${product.image}" alt="${product.name}" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="card-cat"><span class="dot" style="background:${colorFor(product.category)}"></span>${product.category}</span>
+          <h3 class="card-name">${product.name}</h3>
+          <p class="card-desc">${product.desc}</p>
+          <div class="card-footer">
+            <span class="price">${formatRupiah(product.price)}</span>
+            <button class="add-btn">Tambah</button>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    countEl.textContent = list.length + ' produk ditemukan';
+  }
+
+  // 2. Filter produk berdasarkan kategori
+  function getCategories(list){
+    const set = new Set(list.map(p => p.category));
+    return ['Semua', ...set];
+  }
+
+  function renderFilters(){
+    const categories = getCategories(products);
+
+    categories.forEach(function(cat){
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn' + (cat === 'Semua' ? ' active' : '');
+      btn.textContent = cat;
+      btn.dataset.category = cat;
+
+      btn.addEventListener('click', function(){
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filtered = cat === 'Semua'
+          ? products
+          : products.filter(p => p.category === cat);
+
+        renderProducts(filtered);
+      });
+
+      filtersEl.appendChild(btn);
+    });
+  }
+
+  renderFilters();
+  renderProducts(products);
+</script>
+</body>
+</html>
