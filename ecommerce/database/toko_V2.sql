@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 19, 2026 at 06:19 AM
+-- Generation Time: Sep 24, 2026 at 07:46 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,6 +45,8 @@ CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `nama_produk` varchar(255) NOT NULL,
   `deskripsi` text DEFAULT NULL,
+  `gambar` varchar(255) DEFAULT NULL,
+  `kategori` varchar(255) DEFAULT NULL,
   `harga` int(11) NOT NULL,
   `stok` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -53,9 +55,9 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `nama_produk`, `deskripsi`, `harga`, `stok`) VALUES
-(1, 'Laptop A', 'Personal komputer portable', 5000000, 9),
-(3, 'Buku Mysql 01', 'Buku belajar MYSQL', 100000, 20);
+INSERT INTO `products` (`id`, `nama_produk`, `deskripsi`, `gambar`, `kategori`, `harga`, `stok`) VALUES
+(1, 'Laptop A', 'Personal komputer portable', 'https://cdn.mos.cms.futurecdn.net/48MNXEuwtScbho3Sd4KatR.jpg', 'Elektronik', 5000000, 9),
+(3, 'Buku Mysql 01', 'Buku belajar MYSQL', 'https://tse2.mm.bing.net/th/id/OIP.CAlYTaQ-C9hEir72iHdHxwHaG0?r=0&rs=1&pid=ImgDetMain&o=7&rm=3', 'Buku', 100000, 20);
 
 -- --------------------------------------------------------
 

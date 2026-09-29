@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ariq Mukhbitulloh Widayat — Fullstack Software Engineer</title>
+
+<!-- Bootstrap 5 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:            #0b0e14;
+    --bg-alt:        #10141c;
+    --bg-panel:      #141924;
+    --text:          #e9edf5;
+    --text-muted:    #8a92a6;
+    --amber:         #e2a340;
+    --amber-soft:    #f0bb63;
+    --cyan:          #57c2b8;
+    --border:        rgba(233,237,245,0.10);
+    --border-strong: rgba(233,237,245,0.20);
+  }
+
+  ::selection{ background: var(--amber); color:#0b0e14; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  h1,h2,h3,h4, .display-serif{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  code, .mono{ font-family: 'JetBrains Mono', monospace; }
+
+  a{ color: var(--amber-soft); text-decoration: none; }
+  a:hover{ color: var(--amber); }
+
+  :focus-visible{ outline: 2px solid var(--amber-soft); outline-offset: 3px; }
+
+  /* ---------- utility ---------- */
+  .section{ padding: 6.5rem 0; }
+  @media (max-width: 767px){ .section{ padding: 4rem 0; } }
+  .container-narrow{ max-width: 1140px; }
+  .text-muted-custom{ color: var(--text-muted); }
+  .hairline{ border-top: 1px solid var(--border); }
+  .accent-amber{ color: var(--amber-soft); }
+  .accent-cyan{ color: var(--cyan); }
+
+  /* ---------- navbar ---------- */
+  .navbar-custom{
+    background: transparent;
+    transition: background-color .4s ease, box-shadow .4s ease, padding .3s ease;
+    padding: 1.4rem 0;
+  }
+  .navbar-custom.scrolled{
+    background: rgba(11,14,20,0.92);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 var(--border);
+    padding: .9rem 0;
+  }
+  .navbar-brand{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.15rem;
+    color: var(--text) !important;
+  }
+  .navbar-brand span{ color: var(--amber-soft); }
+  .nav-link.custom{
+    color: var(--text-muted) !important;
+    font-size: .92rem;
+    margin: 0 .7rem;
+    position: relative;
+    transition: color .25s ease;
+  }
+  .nav-link.custom::after{
+    content:"";
+    position:absolute; left:0; bottom:-4px;
+    width:0; height:1px; background: var(--amber-soft);
+    transition: width .3s ease;
+  }
+  .nav-link.custom:hover{ color: var(--text) !important; }
+  .nav-link.custom:hover::after{ width: 100%; }
+  .navbar-toggler{ border-color: var(--border-strong); }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-top: 5rem;
+  }
+  .hero-eyebrow{
+    color: var(--cyan);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .88rem;
+    letter-spacing: .01em;
+    margin-bottom: .9rem;
+  }
+  .hero-eyebrow::before{ content: "> "; color: var(--amber-soft); }
+  .hero h1{
+    font-size: clamp(2.5rem, 5.6vw, 4.2rem);
+    line-height: 1.08;
+    margin-bottom: 1.4rem;
+  }
+  .hero h1 .highlight{ color: var(--amber-soft); }
+  .hero-lead{
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 32rem;
+    line-height: 1.7;
+    margin-bottom: 2.2rem;
+  }
+  .btn-amber{
+    background: var(--amber);
+    border: 1px solid var(--amber);
+    color: #0b0e14;
+    font-weight: 500;
+    padding: .7rem 1.6rem;
+    border-radius: 4px;
+    transition: background .25s ease, transform .25s ease, box-shadow .25s ease;
+  }
+  .btn-amber:hover{
+    background: var(--amber-soft);
+    color: #0b0e14;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -10px rgba(226,163,64,0.5);
+  }
+  .btn-outline-custom{
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+    padding: .7rem 1.6rem;
+    border-radius: 4px;
+    transition: border-color .25s ease, background .25s ease;
+  }
+  .btn-outline-custom:hover{
+    border-color: var(--amber-soft);
+    background: rgba(226,163,64,0.08);
+    color: var(--text);
+  }
+
+  .hero-frame{
+    position: relative;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 14px;
+    background: var(--bg-panel);
+  }
+  .hero-frame img{
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+    filter: grayscale(25%) contrast(1.03);
+  }
+  .hero-frame::before{
+    content:"";
+    position:absolute; top:-10px; right:-10px;
+    width: 90px; height: 90px;
+    border-top: 1px solid var(--amber-soft);
+    border-right: 1px solid var(--amber-soft);
+  }
+  .hero-frame .dots{
+    position:absolute; top: 22px; left: 22px;
+    display:flex; gap:6px;
+  }
+  .hero-frame .dots span{
+    width:9px; height:9px; border-radius:50%;
+    display:inline-block;
+  }
+  .hero-frame .dots span:nth-child(1){ background:#e2857a; }
+  .hero-frame .dots span:nth-child(2){ background:#e2c96e; }
+  .hero-frame .dots span:nth-child(3){ background:#7ac48f; }
+
+  .hero-stats{
+    display:flex; gap: 2.4rem; margin-top: 2.6rem;
+    flex-wrap: wrap;
+  }
+  .hero-stats .num{
+    font-family:'Space Grotesk', sans-serif; font-weight: 600; font-size: 1.7rem; color: var(--text);
+  }
+  .hero-stats .label{ font-size: .82rem; color: var(--text-muted); }
+
+  @keyframes fadeUpOnce{
+    from{ opacity:0; transform: translateY(18px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+  .hero-eyebrow, .hero h1, .hero-lead, .hero-cta, .hero-stats{
+    animation: fadeUpOnce .8s ease both;
+  }
+  .hero h1{ animation-delay: .08s; }
+  .hero-lead{ animation-delay: .16s; }
+  .hero-cta{ animation-delay: .24s; }
+  .hero-stats{ animation-delay: .32s; }
+  .hero-frame{ animation: fadeUpOnce 1s ease .2s both; }
+
+  /* ---------- about ---------- */
+  .about-img-wrap{
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    overflow: hidden;
+    height: 520px;
+  }
+  .about-img{
+    width: 100%; height: 100%; object-fit: cover;
+    filter: grayscale(30%);
+  }
+  .about-list dt{
+    font-family:'JetBrains Mono', monospace;
+    color: var(--amber-soft);
+    font-size: 1.1rem;
+    width: 3rem;
+  }
+  .about-list dd{
+    color: var(--text-muted);
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.2rem;
+  }
+  .about-list dd strong{ color: var(--text); font-weight: 500; }
+
+  /* ---------- tech stack strip ---------- */
+  .stack-group{ margin-bottom: 2.2rem; }
+  .stack-group h4{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .95rem;
+    color: var(--cyan);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  .skill-row{
+    display:flex; align-items:center; justify-content: space-between;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: padding-left .3s ease, border-color .3s ease;
+  }
+  .skill-row:hover{
+    padding-left: .6rem;
+    border-color: var(--amber-soft);
+  }
+  .skill-row .skill-name{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 1.15rem;
+  }
+  .skill-row .skill-tag{
+    color: var(--text-muted);
+    font-size: .85rem;
+  }
+  .skill-row i{
+    color: var(--cyan);
+    font-size: 1.2rem;
+    transition: transform .3s ease, color .3s ease;
+  }
+  .skill-row:hover i{ transform: translateX(6px); color: var(--amber-soft); }
+
+  /* ---------- portfolio carousel ---------- */
+  #portfolioCarousel .carousel-item{ height: 62vh; min-height: 400px; }
+  #portfolioCarousel .carousel-item img{
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.6) saturate(1.05);
+  }
+  .carousel-caption-custom{
+    position:absolute; left: 6%; bottom: 8%; max-width: 500px;
+    text-align: left; right: auto;
+  }
+  .carousel-caption-custom .tag{
+    color: var(--amber-soft); font-family: 'JetBrains Mono', monospace;
+    font-size: .8rem; margin-bottom: .5rem; display:block;
+  }
+  .carousel-caption-custom h3{ font-size: 1.9rem; margin-bottom: .6rem; }
+  .carousel-caption-custom p{ color: #d3d7e0; font-size: .95rem; margin-bottom: 1.2rem; }
+  #portfolioCarousel .carousel-control-prev,
+  #portfolioCarousel .carousel-control-next{ width: 6%; opacity: .7; }
+  #portfolioCarousel .carousel-control-prev:hover,
+  #portfolioCarousel .carousel-control-next:hover{ opacity: 1; }
+  #portfolioCarousel .carousel-indicators [data-bs-target]{
+    background-color: var(--amber-soft);
+    width: 26px; height: 2px;
+  }
+
+  /* ---------- testimonials ---------- */
+  .quote-block{ padding: 1.6rem 0; }
+  .quote-block p{
+    font-family:'Space Grotesk', sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--text);
+    font-weight: 400;
+  }
+  .quote-block .who{ color: var(--text-muted); font-size: .88rem; margin-top: .8rem; }
+
+  /* ---------- contact ---------- */
+  .form-control-custom{
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 4px;
+    padding: .75rem .9rem;
+  }
+  .form-control-custom:focus{
+    background: var(--bg-panel);
+    color: var(--text);
+    border-color: var(--amber-soft);
+    box-shadow: 0 0 0 3px rgba(226,163,64,0.15);
+  }
+  .form-control-custom::placeholder{ color: #5f6579; }
+
+  .social-list{ display:flex; gap: .9rem; margin-top: 1.6rem; }
+  .social-list a{
+    width: 42px; height: 42px;
+    border: 1px solid var(--border-strong);
+    display:flex; align-items:center; justify-content:center;
+    color: var(--text-muted);
+    border-radius: 50%;
+    transition: all .25s ease;
+  }
+  .social-list a:hover{
+    border-color: var(--amber-soft);
+    color: var(--amber-soft);
+    transform: translateY(-3px);
+  }
+
+  .contact-panel{
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2.4rem;
+  }
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top: 1px solid var(--border);
+    padding: 1.8rem 0;
+    color: var(--text-muted);
+    font-size: .85rem;
+  }
+
+  /* ---------- modal ---------- */
+  .modal-content-custom{
+    background: var(--bg-alt);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    color: var(--text);
+  }
+  .modal-content-custom img{ width: 100%; height: 280px; object-fit: cover; border-radius: 8px 8px 0 0; }
+  .modal-content-custom .btn-close{ filter: invert(1); }
+  .modal-tags .badge{
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    margin-right: .4rem;
+  }
+  .modal-links a{
+    display:inline-flex; align-items:center; gap:.4rem;
+    margin-right: 1rem; font-size: .9rem;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg fixed-top navbar-custom" id="mainNav">
+  <div class="container container-narrow">
+    <a class="navbar-brand" href="#beranda">ariq<span>.dev</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navContent">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link custom" href="#beranda">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link custom" href="#tentang">Tentang</a></li>
+        <li class="nav-item"><a class="nav-link custom" href="#keahlian">Tech Stack</a></li>
+        <li class="nav-item"><a class="nav-link custom" href="#karya">Proyek</a></li>
+        <li class="nav-item"><a class="nav-link custom" href="#kontak">Kontak</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="beranda">
+  <div class="container container-narrow">
+    <div class="row align-items-center gy-5">
+      <div class="col-lg-6">
+        <span class="hero-eyebrow">fullstack software engineer</span>
+        <h1>Ariq Mukhbitulloh Widayat,<br>membangun <span class="highlight">produk digital</span> dari ujung ke ujung.</h1>
+        <p class="hero-lead">
+          Saya merancang dan membangun aplikasi web — mulai dari arsitektur backend,
+          API, database, sampai antarmuka yang nyaman dipakai. Fokus pada kode yang
+          bersih, performa, dan pengalaman pengguna yang solid.
+        </p>
+        <div class="hero-cta d-flex flex-wrap gap-3">
+          <a href="#karya" class="btn btn-amber">Lihat Proyek Saya</a>
+          <a href="#kontak" class="btn btn-outline-custom">Hubungi Saya</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="num">5+</div>
+            <div class="label">Tahun Pengalaman</div>
+          </div>
+          <div>
+            <div class="num">30+</div>
+            <div class="label">Proyek Dikirim</div>
+          </div>
+          <div>
+            <div class="num">12</div>
+            <div class="label">Teknologi Utama</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-frame">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <img src="https://picsum.photos/seed/ariq-portrait/700/880" alt="Potret Ariq Mukhbitulloh Widayat">
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= TENTANG ================= -->
+<section class="section" id="tentang">
+  <div class="container container-narrow">
+    <div class="row gy-5 align-items-start">
+      <div class="col-lg-5">
+        <div class="about-img-wrap">
+          <img src="https://picsum.photos/seed/ariq-coding/700/900" alt="Ariq sedang bekerja di depan laptop" class="about-img">
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <h2 class="mb-4" style="font-size:2.2rem;">Tentang Saya</h2>
+        <p class="text-muted-custom mb-4" style="line-height:1.8; max-width:38rem;">
+          Saya Ariq Mukhbitulloh Widayat, seorang fullstack software engineer yang senang
+          menyelesaikan masalah nyata lewat kode. Mulai dari merancang skema database,
+          membangun REST API, sampai menyusun antarmuka yang responsif — saya suka
+          terlibat di setiap lapisan produk, bukan cuma satu bagian saja.
+        </p>
+        <dl class="about-list">
+          <div class="d-flex">
+            <dt>01</dt>
+            <dd><strong>Backend & API</strong> — merancang arsitektur, REST/GraphQL API, dan integrasi sistem yang skalabel.</dd>
+          </div>
+          <div class="d-flex">
+            <dt>02</dt>
+            <dd><strong>Frontend</strong> — antarmuka yang cepat, responsif, dan mudah dipakai, dari React hingga Vue.</dd>
+          </div>
+          <div class="d-flex">
+            <dt>03</dt>
+            <dd><strong>DevOps Ringan</strong> — deployment, CI/CD sederhana, dan monitoring agar aplikasi tetap stabil.</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TECH STACK ================= -->
+<section class="section hairline" id="keahlian" style="background: var(--bg-alt);">
+  <div class="container container-narrow">
+    <div class="row mb-4">
+      <div class="col-lg-6">
+        <h2 style="font-size:2.2rem;">Tech Stack</h2>
+        <p class="text-muted-custom">Tools dan teknologi yang paling sering saya pakai sehari-hari.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="stack-group">
+          <h4>// frontend</h4>
+          <div class="skill-row">
+            <div>
+              <div class="skill-name">React & Next.js</div>
+              <div class="skill-tag">SPA, SSR, dan static site generation</div>
+            </div>
+            <i class="bi bi-arrow-right"></i>
+          </div>
+          <div class="skill-row">
+            <div>
+              <div class="skill-name">Vue.js</div>
+              <div class="skill-tag">Component-based, reaktif</div>
+            </div>
+            <i class="bi bi-arrow-right"></i>
+          </div>
+          <div class="skill-row">
+            <div>
+              <div class="skill-name">Bootstrap & Tailwind CSS</div>
+              <div class="skill-tag">UI cepat dan konsisten</div>
+            </div>
+            <i class="bi bi-arrow-right"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="stack-group">
+          <h4>// backend & infra</h4>
+          <div class="skill-row">
+            <div>
+              <div class="skill-name">Node.js & Express</div>
+              <div class="skill-tag">REST API, middleware, autentikasi</div>
+            </div>
+            <i class="bi bi-arrow-right"></i>
+          </div>
+          <div class="skill-row">
+            <div>
+              <div class="skill-name">PostgreSQL & MongoDB</div>
+              <div class="skill-tag">Relasional dan NoSQL</div>
+            </div>
+            <i class="bi bi-arrow-right"></i>
+          </div>
+          <div class="skill-row">
+            <div>
+              <div class="skill-name">Docker & CI/CD</div>
+              <div class="skill-tag">Containerization, deployment otomatis</div>
+            </div>
+            <i class="bi bi-arrow-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROYEK / CAROUSEL ================= -->
+<section class="section" id="karya">
+  <div class="container container-narrow mb-4">
+    <h2 style="font-size:2.2rem;">Proyek Pilihan</h2>
+    <p class="text-muted-custom">Beberapa proyek yang pernah saya kerjakan. Klik "Lihat Detail" untuk info lebih lengkap.</p>
+  </div>
+
+  <div id="portfolioCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#portfolioCarousel" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#portfolioCarousel" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#portfolioCarousel" data-bs-slide-to="2"></button>
+      <button type="button" data-bs-target="#portfolioCarousel" data-bs-slide-to="3"></button>
+    </div>
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        <img src="https://picsum.photos/seed/proj-ecommerce/1600/900" alt="Aplikasi e-commerce fullstack">
+        <div class="carousel-caption-custom">
+          <span class="tag">fullstack · react · node.js</span>
+          <h3>Platform E-commerce</h3>
+          <p>Aplikasi jual-beli lengkap dengan sistem pembayaran, manajemen stok, dan dashboard admin.</p>
+          <button class="btn btn-amber btn-sm" data-bs-toggle="modal" data-bs-target="#projectModal" data-project="0">Lihat Detail</button>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <img src="https://picsum.photos/seed/proj-dashboard/1600/900" alt="Dashboard analitik untuk tim internal">
+        <div class="carousel-caption-custom">
+          <span class="tag">frontend · vue · chart.js</span>
+          <h3>Dashboard Analitik</h3>
+          <p>Visualisasi data penjualan real-time untuk membantu tim mengambil keputusan lebih cepat.</p>
+          <button class="btn btn-amber btn-sm" data-bs-toggle="modal" data-bs-target="#projectModal" data-project="1">Lihat Detail</button>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <img src="https://picsum.photos/seed/proj-api/1600/900" alt="Sistem API untuk manajemen inventaris">
+        <div class="carousel-caption-custom">
+          <span class="tag">backend · express · postgresql</span>
+          <h3>API Manajemen Inventaris</h3>
+          <p>REST API untuk mengelola stok gudang lintas cabang, lengkap dengan sistem role & permission.</p>
+          <button class="btn btn-amber btn-sm" data-bs-toggle="modal" data-bs-target="#projectModal" data-project="2">Lihat Detail</button>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <img src="https://picsum.photos/seed/proj-mobile/1600/900" alt="Aplikasi pemesanan berbasis web">
+        <div class="carousel-caption-custom">
+          <span class="tag">fullstack · next.js · mongodb</span>
+          <h3>Aplikasi Reservasi Online</h3>
+          <p>Sistem pemesanan jadwal dengan notifikasi otomatis dan integrasi kalender.</p>
+          <button class="btn btn-amber btn-sm" data-bs-toggle="modal" data-bs-target="#projectModal" data-project="3">Lihat Detail</button>
+        </div>
+      </div>
+
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIAL ================= -->
+<section class="section hairline" style="background: var(--bg-alt);">
+  <div class="container container-narrow">
+    <div class="row gy-4">
+      <div class="col-md-6">
+        <div class="quote-block">
+          <p>"Ariq punya pemahaman solid di backend maupun frontend. Komunikasinya juga jelas soal progres teknis."</p>
+          <div class="who">— Rina S., Project Manager</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="quote-block">
+          <p>"Kode yang ia tulis rapi dan mudah dipelihara. Deployment jadi jauh lebih lancar sejak ia pegang project ini."</p>
+          <div class="who">— Tim Engineering, Startup Lokal</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= KONTAK ================= -->
+<section class="section" id="kontak">
+  <div class="container container-narrow">
+    <div class="row gy-5">
+      <div class="col-lg-5">
+        <h2 class="mb-3" style="font-size:2.2rem;">Mari Berkolaborasi</h2>
+        <p class="text-muted-custom" style="max-width:26rem; line-height:1.7;">
+          Punya proyek yang butuh developer fullstack, atau sekadar mau ngobrol soal teknologi?
+          Kirim pesan, saya akan balas dalam 1–2 hari kerja.
+        </p>
+        <div class="mt-4">
+          <div class="text-muted-custom small mb-1">Email</div>
+          <div>ariq.widayat@email.com</div>
+        </div>
+        <div class="mt-3">
+          <div class="text-muted-custom small mb-1">Lokasi</div>
+          <div>Jakarta, Indonesia</div>
+        </div>
+        <div class="social-list">
+          <a href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+          <a href="#" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" aria-label="Email"><i class="bi bi-envelope"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="contact-panel">
+          <form onsubmit="return false;">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small text-muted-custom">Nama</label>
+                <input type="text" class="form-control form-control-custom" placeholder="Nama lengkap">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small text-muted-custom">Email</label>
+                <input type="email" class="form-control form-control-custom" placeholder="nama@email.com">
+              </div>
+              <div class="col-12">
+                <label class="form-label small text-muted-custom">Jenis Kebutuhan</label>
+                <select class="form-select form-control-custom">
+                  <option>Pengembangan Web Fullstack</option>
+                  <option>Backend & API</option>
+                  <option>Frontend / UI</option>
+                  <option>Konsultasi Teknis</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label small text-muted-custom">Pesan</label>
+                <textarea class="form-control form-control-custom" rows="4" placeholder="Ceritakan sedikit tentang proyek Anda..."></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-amber w-100">Kirim Pesan</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container container-narrow d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+    <div>© 2026 Ariq Mukhbitulloh Widayat. Seluruh hak cipta dilindungi.</div>
+    <div class="mono">built with Bootstrap 5</div>
+  </div>
+</footer>
+
+<!-- ================= MODAL PROYEK ================= -->
+<div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content modal-content-custom">
+      <img id="modalImg" src="" alt="">
+      <div class="modal-body p-4">
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        <span class="accent-cyan small mono" id="modalTag"></span>
+        <h3 class="mt-2 mb-3" id="modalTitle"></h3>
+        <p class="text-muted-custom" id="modalDesc" style="line-height:1.75;"></p>
+        <div class="modal-tags mt-3" id="modalTags"></div>
+        <div class="modal-links mt-3">
+          <a href="#"><i class="bi bi-github"></i> Kode Sumber</a>
+          <a href="#"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Navbar solid on scroll
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Project data for modal
+  const projects = [
+    {
+      tag: "fullstack · react · node.js · postgresql",
+      title: "Platform E-commerce",
+      desc: "Aplikasi jual-beli fullstack dengan katalog produk, keranjang belanja, integrasi pembayaran, serta dashboard admin untuk mengelola pesanan dan stok. Backend dibangun dengan Node.js dan Express, database menggunakan PostgreSQL, dan frontend menggunakan React dengan state management terpusat.",
+      img: "https://picsum.photos/seed/proj-ecommerce/1000/700",
+      tags: ["React", "Node.js", "Express", "PostgreSQL"]
+    },
+    {
+      tag: "frontend · vue · chart.js",
+      title: "Dashboard Analitik",
+      desc: "Dashboard internal untuk memvisualisasikan data penjualan secara real-time, lengkap dengan filter periode, grafik interaktif, dan ekspor laporan ke PDF/Excel. Dibangun dengan Vue.js dan Chart.js, terhubung ke API internal perusahaan.",
+      img: "https://picsum.photos/seed/proj-dashboard/1000/700",
+      tags: ["Vue.js", "Chart.js", "REST API"]
+    },
+    {
+      tag: "backend · express · postgresql",
+      title: "API Manajemen Inventaris",
+      desc: "REST API untuk mengelola stok barang di banyak cabang gudang sekaligus, dengan sistem role & permission, audit log, dan notifikasi stok menipis. Dirancang agar mudah diintegrasikan dengan aplikasi POS pihak ketiga.",
+      img: "https://picsum.photos/seed/proj-api/1000/700",
+      tags: ["Node.js", "Express", "PostgreSQL", "JWT"]
+    },
+    {
+      tag: "fullstack · next.js · mongodb",
+      title: "Aplikasi Reservasi Online",
+      desc: "Sistem pemesanan jadwal untuk layanan berbasis janji temu, dengan kalender interaktif, notifikasi email/WhatsApp otomatis, dan panel admin untuk mengatur slot waktu. Dibangun dengan Next.js (SSR) dan MongoDB.",
+      img: "https://picsum.photos/seed/proj-mobile/1000/700",
+      tags: ["Next.js", "MongoDB", "Nodemailer"]
+    }
+  ];
+
+  const projectModal = document.getElementById('projectModal');
+  projectModal.addEventListener('show.bs.modal', (event) => {
+    const btn = event.relatedTarget;
+    const index = parseInt(btn.getAttribute('data-project'), 10);
+    const p = projects[index];
+
+    document.getElementById('modalImg').src = p.img;
+    document.getElementById('modalImg').alt = p.title;
+    document.getElementById('modalTag').textContent = p.tag;
+    document.getElementById('modalTitle').textContent = p.title;
+    document.getElementById('modalDesc').textContent = p.desc;
+
+    const tagsWrap = document.getElementById('modalTags');
+    tagsWrap.innerHTML = '';
+    p.tags.forEach(t => {
+      const span = document.createElement('span');
+      span.className = 'badge rounded-pill';
+      span.textContent = t;
+      tagsWrap.appendChild(span);
+    });
+  });
+</script>
+</body>
+</html>
