@@ -1,6 +1,10 @@
 <?php
+session_start();
 require 'koneksi.php';
 
+$stmtKeranjang = $pdo->prepare('SELECT COALESCE(SUM(qty),0) FROM keranjang WHERE session_id = ?');
+$stmtKeranjang->execute([session_id()]);
+$jumlahKeranjang = (int)$stmtKeranjang->fetchColumn();
 $perHalaman = 8;
 $halaman    = max(1, (int)($_GET['hal'] ?? 1));
 $cari       = trim($_GET['q'] ?? '');
@@ -62,6 +66,17 @@ function urlHal($hal)   { return '?' . http_build_query(array_merge($_GET, ['hal
 <nav class="navbar navbar-dark bg-dark sticky-top">
   <div class="container">
     <a class="navbar-brand fw-bold" href="index.php"><i class="bi bi-bag-heart me-2"></i>Ariq Shop wkwk</a>
+    <a href="dashboard.php" class="btn btn-outline-light btn-sm ms-auto me-3">
+  <i class="bi bi-speedometer2 me-1"></i>Dashboard
+</a>
+    <a href="keranjang.php" class="btn btn-outline-light btn-sm position-relative">
+      <i class="bi bi-cart3"></i>
+      <?php if ($jumlahKeranjang > 0): ?>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          <?= (int)$jumlahKeranjang ?>
+        </span>
+      <?php endif; ?>
+    </a>
     <form class="d-flex" method="get" role="search">
       <?php if ($kategori !== ''): ?>
   <input type="hidden" name="kategori" value="<?= htmlspecialchars($kategori) ?>">
@@ -126,9 +141,14 @@ function urlHal($hal)   { return '?' . http_build_query(array_merge($_GET, ['hal
             <div class="small mb-3 <?= $p['stok'] > 0 ? 'text-success' : 'text-danger' ?>">
               <?= $p['stok'] > 0 ? 'Stok: ' . (int)$p['stok'] : 'Stok habis' ?>
             </div>
-            <button class="btn btn-primary" <?= $p['stok'] > 0 ? '' : 'disabled' ?>>
-              <i class="bi bi-cart-plus me-1"></i>Tambah ke keranjang
-            </button>
+            <form method="post" action="keranjang.php">
+              <input type="hidden" name="aksi" value="tambah">
+              <input type="hidden" name="id" value="<?= (int)$p['id'] ?>">
+              <input type="hidden" name="qty" value="1">
+              <button class="btn btn-primary w-100" <?= $p['stok'] > 0 ? '' : 'disabled' ?>>
+                <i class="bi bi-cart-plus me-1"></i><?= $p['stok'] > 0 ? 'Tambah ke keranjang' : 'Stok habis' ?>
+              </button>
+            </form>
           </div>
         </div>
       </div>
