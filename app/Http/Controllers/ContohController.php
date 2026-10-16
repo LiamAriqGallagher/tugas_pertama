@@ -10,6 +10,12 @@ class ContohController extends Controller
     {
         $title = 'contoh halaman blade.';
         $products = ['laptop', 'keyboard', 'mouse', 'monitor'];
-        return view(    'contoh', compact('products','title'));
+        return view('contoh', compact('products','title'));
+    }
+    public function coba(){
+        $title = 'ariq anjay sleketew';
+        $iflogin = true;
+        $products = ['laptop', 'keyboard', 'mouse', 'monitor'];
+        return view('coba', compact('title', 'iflogin', 'products'));
     }
 }

@@ -3,23 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ContohController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    // return view('welcome');
-    return ('ini route utama');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
 
-Route::get('/products', function () {
-    return ('ini route products');
-});
+Route::get('/products', [HomeController::class, 'products'])->name('products');
 
-Route::get('/cart', function () {
-    return ('ini route cart');
-});
+Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 
-Route::get('/checkout', function () {
-    return ('ini route checkout');
-});
+Route::get('/coba', [ContohController::class, 'coba']);
 
 Route::get('/contoh', [ContohController::class, 'index']);
 Route::resource('products-resource', ProductController::class);
